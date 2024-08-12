@@ -1,0 +1,35 @@
+﻿.genre-list-page {
+    display: flex;
+    flex-direction: column;
+}
+
+.genre-list {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 1em 1.5em;
+}
+
+.genre-item {
+    color: white !important;
+    background-color: #393939;
+    border: 1px solid grey;
+    border-radius: 2px;
+    padding: 1em 3em;
+    transition: 0.25s linear;
+    flex-grow: 1;
+    max-width: 10em;
+}
+
+.genre-item:hover {
+    color: black;
+    background-color: grey;
+}
+
+.create-button {
+    color: #393939;
+    background-color: white;
+    border: 1px solid grey;
+    border-radius: 5px;
+    align-self: flex-end;
+}

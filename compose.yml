@@ -1,0 +1,63 @@
+services:
+
+  tvshowapplication_db:
+    container_name: tvshowapplication_mssql_db
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    hostname: mssql2022
+    ports:
+      - "1433:1433"
+    networks:
+      - tvshowapplication_network
+    environment:
+      MSSQL_SA_PASSWORD: ${SA_PASSWORD}
+      ACCEPT_EULA: "Y"
+      MSSQL_PID: "Express"
+    restart: unless-stopped
+
+  tvshowapplication_migrations:
+    container_name: tvshowapplication_migrations
+    networks:
+      - tvshowapplication_network
+    build:
+      dockerfile: src/TVShowApplication.Migrations/Dockerfile
+    depends_on:
+      - tvshowapplication_db
+
+  tvshowapplication_api:
+    build:
+      dockerfile: src/TVShowApplication.API/Dockerfile
+    container_name: tvshowapplication_api
+    hostname: tvshowapplication_api
+    environment:
+      - ASPNETCORE_ENVIRONMENT=${ASPNETCORE_ENVIRONMENT}
+      - ASPNETCORE_URLS=${ASPNETCORE_URLS}
+      - ASPNETCORE_Kestrel__Certificates__Default__Password=${ASPNETCORE_Kestrel__Certificates__Default__Password}
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=${ASPNETCORE_Kestrel__Certificates__Default__Path}
+    ports:
+      - "5013:5013"
+      - "7013:7013"
+    networks:
+      - tvshowapplication_network
+    depends_on:
+      tvshowapplication_migrations:
+        condition: service_completed_successfully
+    volumes:
+      - .\certificates\tvshowapplication\https:/https:ro
+
+  tvshowapplication_client:
+    build:
+      dockerfile: src/TVShowApplication.Client/Dockerfile
+    container_name: tvshowapplication_client
+    hostname: tvshowapplicationclient
+    ports:
+      - "3000:3000"
+    networks:
+      - tvshowapplication_network
+    depends_on:
+      - tvshowapplication_api
+
+volumes:
+  tvshowapplication_volume:
+
+networks:
+  tvshowapplication_network:
