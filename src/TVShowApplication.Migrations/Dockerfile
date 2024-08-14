@@ -20,6 +20,5 @@ WORKDIR /src/TVShowApplication.Migrations
 
 RUN dotnet tool install --global dotnet-ef
 ENV PATH="$PATH:/root/.dotnet/tools"
-#RUN dotnet ef database update --project "../TVShowApplication.Infrastructure/TVShowApplication.Infrastructure.csproj"
 
 ENTRYPOINT [ "dotnet", "ef", "database", "update", "--project", "../TVShowApplication.Infrastructure/TVShowApplication.Infrastructure.csproj" ]
