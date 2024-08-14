@@ -26,6 +26,7 @@ const AuthDispatchContext = createContext<AuthDispatch | null>(null);
 function reducer(currentState: AuthenticationState, newState: AuthenticationState): AuthenticationState {
     const mergedState = { ...currentState, ...newState };
 
+    // no you shouldn't store this in browser storage
     if (mergedState.user) {
         saveToLocalStorage(mergedState.user);
     } else {

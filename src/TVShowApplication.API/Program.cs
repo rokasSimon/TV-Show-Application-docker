@@ -6,6 +6,16 @@ using TVShowApplication.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(policy =>
+    {
+        policy.WithOrigins("http://localhost:3000/")
+            .AllowAnyMethod()
+            .AllowAnyHeader();
+    });
+});
+
 builder.Services.AddAPIServices();
 builder.Services.AddMappedProblemDetails();
 builder.Services.AddInfrastructureServices(builder.Configuration);
@@ -53,6 +63,8 @@ app.UseSwaggerUI();
 
 app.UseHttpsRedirection();
 app.UseRouting();
+
+app.UseCors();
 
 app.UseAuthentication();
 app.UseAuthorization();

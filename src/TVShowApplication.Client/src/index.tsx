@@ -15,6 +15,9 @@ import GenreView from './Pages/GenreView';
 import CreateSeriesPage from './Pages/CreateSeriesPage';
 import SeriesView from './Pages/SeriesView';
 import UpdateSeriesPage from './Pages/UpdateSeriesPage';
+import axios from 'axios';
+
+axios.defaults.baseURL = "http://localhost:5013";
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -64,9 +67,7 @@ const router = createBrowserRouter([
 
 root.render(
     <AuthProvider>
-        <AxiosInstanceProvider config={{
-            baseURL: "http://tvshowapplication_api:5013"
-        }}>
+        <AxiosInstanceProvider>
             <RouterProvider router={router} />
         </AxiosInstanceProvider>
     </AuthProvider>
